@@ -2,7 +2,7 @@
 
 include('db_connection.php');
 
-$query = "SELECT gamers.*, SUM(points.points) as total_points FROM gamers as gamers LEFT OUTER JOIN points as points on gamers.gamer_id = points.gamer_id GROUP BY gamers.gamer_id order by total_points desc";
+$query = "SELECT gamer_year_map.gamer_number, gamers.*, SUM(points.points) as total_points FROM gamers as gamers LEFT OUTER JOIN points as points on gamers.gamer_id = points.gamer_id and points.nlpt_year = ".$_GET['year']." JOIN gamer_year_map as gamer_year_map on gamers.gamer_id = gamer_year_map.gamer_id and gamer_year_map.year = ".$_GET['year']." GROUP BY gamers.gamer_id order by total_points desc";
 $result = mysql_query($query);
 
 $arrPoints = array();
