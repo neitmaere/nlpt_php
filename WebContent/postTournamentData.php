@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "lan_party_2017";
+$dbname = "nlpt_db";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -24,7 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		if($shooter->gamer_number === null){
 			$sql ="UPDATE points SET gamer_id = null WHERE point_id = $shooter->point_id";
 		} else {
-			$sql ="UPDATE points SET gamer_id = (SELECT gamer_id from gamers WHERE gamer_number = $shooter->gamer_number) WHERE point_id = $shooter->point_id";
+			$sql ="UPDATE points SET gamer_id = (SELECT gamer_id from gamer_year_map WHERE gamer_number = $shooter->gamer_number and year= ".$_GET['year'].") WHERE point_id = $shooter->point_id";
+            
+            
 		}
 		if ($conn->query($sql) === false) {
 			echo "Error updating record: " . $conn->error;
