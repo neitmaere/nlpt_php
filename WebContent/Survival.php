@@ -2,7 +2,14 @@
 
 include('db_connection.php');
 
-$query = "SELECT * FROM `points` as points left OUTER JOIN gamers as gamers on gamers.gamer_id = points.gamer_id WHERE points.category_id = 4 and points.round =".$_GET['round']."";
+$year = $_GET['year'];
+$round = $_GET['round'];
+
+if($round != 0){
+  $query = "SELECT *, gamer_year_map.gamer_number FROM `points` as points left OUTER JOIN gamers as gamers on gamers.gamer_id = points.gamer_id left OUTER JOIN gamer_year_map as gamer_year_map on gamer_year_map.gamer_id = gamers.gamer_id and gamer_year_map.year = ".$year." WHERE points.category_id = 4 and points.nlpt_year = ".$year." and points.round = ".$round." order by points.points desc";  
+} else {
+  $query = "SELECT *, gamer_year_map.gamer_number FROM `points` as points left OUTER JOIN gamers as gamers on gamers.gamer_id = points.gamer_id left OUTER JOIN gamer_year_map as gamer_year_map on gamer_year_map.gamer_id = gamers.gamer_id and gamer_year_map.year = ".$year." WHERE points.category_id = 4 and points.nlpt_year = ".$year." order by points.points desc";
+}
 $result = mysql_query($query);
 
 $arrPoints = array();
