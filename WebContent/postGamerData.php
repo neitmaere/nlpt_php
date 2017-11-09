@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "lan_party_2017";
+$dbname = "nlpt_db";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -20,8 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	$error = false;
 
 	foreach ($gamers as $gamer) {
-		$sql ="UPDATE `gamers` SET `firstname` = '$gamer->firstname', `lastname` = '$gamer->lastname', `nickname` = '$gamer->nickname', `gamer_number` = $gamer->gamer_number WHERE `gamers`.`gamer_id` = $gamer->gamer_id; ";
-		if ($conn->query($sql) === false) {
+		$sql ="UPDATE gamer_year_map, gamers
+                SET gamer_year_map.gamer_number = $gamer->gamer_number,
+                gamers.firstname = '$gamer->firstname', gamers.lastname = '$gamer->lastname', gamers.nickname = '$gamer->nickname'
+                WHERE gamer_year_map.gamer_id = $gamer->gamer_id AND
+                gamer_year_map.year = ".$_GET['year']." AND
+                gamers.gamer_id = $gamer->gamer_id";
+		
+        
+        
+        if ($conn->query($sql) === false) {
 			echo "Error updating record: " . $conn->error;
 			$error=true;
 			break;
