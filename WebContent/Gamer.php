@@ -2,7 +2,11 @@
 
 include('db_connection.php');
 
-$query = "SELECT gamers.*, gamer_year_map.* FROM gamers as gamers, gamer_year_map as gamer_year_map WHERE gamer_year_map.gamer_id = gamers.gamer_id and gamer_year_map.year = ".$_GET['year']." order by gamer_number asc";
+if($_GET['year'] == "0000"){
+    $query = "SELECT gamers.*, gamer_year_map.* FROM gamers as gamers, gamer_year_map as gamer_year_map WHERE gamer_year_map.gamer_id = gamers.gamer_id group by gamer_year_map.gamer_id order by gamers.gamer_id asc";
+} else {
+    $query = "SELECT gamers.*, gamer_year_map.* FROM gamers as gamers, gamer_year_map as gamer_year_map WHERE gamer_year_map.gamer_id = gamers.gamer_id and gamer_year_map.year = ".$_GET['year']." order by gamer_number asc";
+}
 $result = mysql_query($query);
 
 $arrPoints = array();
